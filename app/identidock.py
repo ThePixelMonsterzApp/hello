@@ -6,7 +6,7 @@ import html
 import os
 
 app = Flask(__name__)
-cache = redis.StrictRedis(host='redis', port=6379, db=0)
+cache = redis.StrictRedis(host='redis-monsterz.marathon.mesos', port=6379, db=0)
 salt = "UNIQUE_SALT"
 name = os.environ['HOSTNAME']
 
@@ -57,11 +57,11 @@ def get_identicon(name):
         image = cache.get(name)
         if image is None:
             print ("Cache miss", flush=True)
-            r = requests.get('http://dnmonster:8080/monster/' + name + '?size=80')
+            r = requests.get('http://dnmonster-monsterz.marathon.mesos:8088/monster/' + name + '?size=80')
             image = r.content
             cache.set(name, image)
     else:
-        r = requests.get('http://dnmonster:8080/monster/' + name + '?size=80')
+        r = requests.get('http://dnmonster-monsterz.marathon.mesos:8088/monster/' + name + '?size=80')
         image = r.content
 
 
