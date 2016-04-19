@@ -14,7 +14,14 @@
             "docker": {
               "image": "errordeveloper/identiorca:dcos-example",
               "network": "BRIDGE",
-              "forcePullImage": true
+              "forcePullImage": true,
+              "portMappings": [
+                {
+                  "containerPort": 5000,
+                  "hostPort": 8089,
+                  "protocol": "tcp"
+                }
+              ]
             }
           },
           "labels": {
@@ -22,14 +29,9 @@
             "DCOS_SERVICE_SCHEME": "http",
             "DCOS_SERVICE_PORT_INDEX": "0"
           },
-          "requirePorts": true,
-          "portDefinitions": [
-            {
-              "port": 9090,
-              "protocol": "tcp",
-              "name": "monsterz-identiorca-app"
-            }
-          ]
+          "env": {
+            "ENV": "DEV"
+          }
         },
         {
           "id": "/monsterz/apps/dnmonster",
@@ -67,17 +69,16 @@
             "docker": {
               "image": "redis:3",
               "network": "BRIDGE",
-              "forcePullImage": false
+              "forcePullImage": false,
+              "portMappings": [
+                {
+                  "containerPort": 6379,
+                  "hostPort": 8090,
+                  "protocol": "tcp"
+                }
+              ]
             }
-          },
-          "requirePorts": true,
-          "portDefinitions": [
-            {
-              "port": 6379,
-              "protocol": "tcp",
-              "name": "monsterz-redis"
-            }
-          ]
+          }
         }
       ]
     }

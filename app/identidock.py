@@ -6,7 +6,7 @@ import html
 import os
 
 app = Flask(__name__)
-cache = redis.StrictRedis(host='redis-data-monsterz.marathon.mesos', port=6379, db=0)
+cache = redis.StrictRedis(host='redis-data-monsterz.marathon.mesos', port=8090, db=0)
 salt = "UNIQUE_SALT"
 name = os.environ['HOSTNAME']
 
