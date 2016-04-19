@@ -1,0 +1,85 @@
+{
+  "id": "/monsterz",
+  "groups": [
+    {
+      "id": "/monsterz/apps",
+      "apps": [
+        {
+          "id": "/monsterz/apps/identiorca",
+          "cpus": 0.1,
+          "mem": 512,
+          "instances": 2,
+          "container": {
+            "type": "DOCKER",
+            "docker": {
+              "image": "errordeveloper/identiorca:dcos-example",
+              "network": "BRIDGE",
+              "forcePullImage": true
+            }
+          },
+          "labels": {
+            "DCOS_SERVICE_NAME": "monsterz",
+            "DCOS_SERVICE_SCHEME": "http",
+            "DCOS_SERVICE_PORT_INDEX": "0"
+          },
+          "requirePorts": true,
+          "portDefinitions": [
+            {
+              "port": 9090,
+              "protocol": "tcp",
+              "name": "monsterz-identiorca-app"
+            }
+          ]
+        },
+        {
+          "id": "/monsterz/apps/dnmonster",
+          "cpus": 0.1,
+          "mem": 512,
+          "instances": 2,
+          "container": {
+            "type": "DOCKER",
+            "docker": {
+              "image": "amouat/dnmonster:1.0",
+              "network": "BRIDGE",
+              "forcePullImage": true,
+              "portMappings": [
+                {
+                  "containerPort": 8080,
+                  "hostPort": 8088,
+                  "protocol": "tcp"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "/monsterz/data",
+      "apps": [
+        {
+          "id": "/monsterz/data/redis",
+          "cpus": 0.5,
+          "mem": 128,
+          "instances": 1,
+          "container": {
+            "type": "DOCKER",
+            "docker": {
+              "image": "redis:3",
+              "network": "BRIDGE",
+              "forcePullImage": false
+            }
+          },
+          "requirePorts": true,
+          "portDefinitions": [
+            {
+              "port": 6379,
+              "protocol": "tcp",
+              "name": "monsterz-redis"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
